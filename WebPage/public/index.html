@@ -9,36 +9,59 @@
 </head>
 <body>
     <div class="container">
-        <div class="row">
-            <input id="zip" />
-            <button class="btn btn-primary" onclick="getCity()">Test</button>
+        <h1>Search City</h1>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Enter zip code" id="zip" />
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="search">Search</button>
+            </div>
         </div>
-        <div class="row">
-            <span id="city"></span>
-        </div>
+        <div class="alert" id="result"></div>
     </div>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         $(document).ready(function () {
 
-            getCity = function () {
+            $('#search').click(function () {
 
                 var zip = $('#zip').val();
+                var uri = "https://dawa.aws.dk/postnumre/";
 
-                $.ajax({
-                    url: 'https://dawa.aws.dk/postnumre/'+ zip,
-                    type: 'GET',
-                    success: function (result) {
-                        console.log(result);
-                        $('#city').text(result.navn);
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
-                });
-            }
-        })
+                //$.ajax({
+                //    url: uri + zip,
+                //    type: 'GET',
+                //    success: function (result) {
+                //        $('#result').text(result.navn);
+                //        $('#result').addClass('alert-success');
+                //    },
+                //    error: function (error) {
+                //        if (error.status === 404) {
+                //            $('#result').text('Zip code not found');
+                //        }
+                //        else {
+                //            $('#result').text(error.statusText);
+                //        }
+                //        $('#result').addClass('alert-danger');
+                //    }
+                //});
+
+                axios.get(uri + zip)
+                    .then(result => {
+                        $('#result').text(result.data.navn);
+                        $('#result').addClass('alert-success');
+                    })
+                    .catch(error => {
+                        if (error.response.status === 404) {
+                            $('#result').text('Zip code not found');
+                        }
+                        else {
+                            $('#result').text(error.response.statusText);
+                        }
+                        $('#result').addClass('alert-danger'); 
+                    });
+            });
+        });
     </script>
 </body>
 </html>
