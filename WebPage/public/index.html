@@ -19,7 +19,7 @@
         <div class="alert" id="result"></div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>-->
     <script>
         $(document).ready(function () {
 
@@ -28,38 +28,38 @@
                 var zip = $('#zip').val();
                 var uri = "https://dawa.aws.dk/postnumre/";
 
-                //$.ajax({
-                //    url: uri + zip,
-                //    type: 'GET',
-                //    success: function (result) {
-                //        $('#result').text(result.navn);
-                //        $('#result').addClass('alert-success');
-                //    },
-                //    error: function (error) {
-                //        if (error.status === 404) {
-                //            $('#result').text('Zip code not found');
-                //        }
-                //        else {
-                //            $('#result').text(error.statusText);
-                //        }
-                //        $('#result').addClass('alert-danger');
-                //    }
-                //});
-
-                axios.get(uri + zip)
-                    .then(result => {
-                        $('#result').text(result.data.navn);
+                $.ajax({
+                    url: uri + zip,
+                    type: 'GET',
+                    success: function (result) {
+                        $('#result').text(result.navn);
                         $('#result').addClass('alert-success');
-                    })
-                    .catch(error => {
-                        if (error.response.status === 404) {
+                    },
+                    error: function (error) {
+                        if (error.status === 404) {
                             $('#result').text('Zip code not found');
                         }
                         else {
-                            $('#result').text(error.response.statusText);
+                            $('#result').text(error.statusText);
                         }
-                        $('#result').addClass('alert-danger'); 
-                    });
+                        $('#result').addClass('alert-danger');
+                    }
+                });
+
+                //axios.get(uri + zip)
+                //    .then(result => {
+                //        $('#result').text(result.data.navn);
+                //        $('#result').addClass('alert-success');
+                //    })
+                //    .catch(error => {
+                //        if (error.response.status === 404) {
+                //            $('#result').text('Zip code not found');
+                //        }
+                //        else {
+                //            $('#result').text(error.response.statusText);
+                //        }
+                //        $('#result').addClass('alert-danger');
+                //    });
             });
         });
     </script>
